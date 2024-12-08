@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/bd60e911-abcf-40f5-adf5-516f61f3936f/resourceGroups/retail-analytics-rg/providers/Microsoft.Web/sites/retail-analytics-app",
+    "appService.deploySubpath": "."
+}

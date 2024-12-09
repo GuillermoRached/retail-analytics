@@ -13,34 +13,45 @@ const sqlConfig = {
   },
   options: {
     encrypt: true,
-    trustServerCertificate: false
+    trustServerCertificate: false,
+    enableArithAbort: true,
+    connectTimeout: 30000,
+    requestTimeout: 30000
   }
 }
 
-// We'll modify our executeQuery function to handle parameters properly
-export async function executeQuery<T>(
-  query: string, 
-  params: { [key: string]: any } = {}
-): Promise<T[]> {
+// Create a connection pool that we can reuse
+let pool: sql.ConnectionPool | null = null;
+
+async function getConnection() {
   try {
-    // Create a new connection pool
-    const pool = await sql.connect(sqlConfig)
-    
-    // Create a new request object
-    const request = pool.request()
-    
-    // Add any parameters to the request
-    // This is where we properly declare our SQL parameters
-    Object.entries(params).forEach(([key, value]) => {
-      request.input(key, value)
-    })
-    
-    // Execute the query with the properly declared parameters
-    const result = await request.query(query)
-    
-    return result.recordset
+    if (pool) {
+      return pool;
+    }
+
+    pool = await new sql.ConnectionPool(sqlConfig).connect();
+    console.log('Connected to database successfully');
+    return pool;
   } catch (err) {
-    console.error('Query execution failed:', err)
-    throw err
+    console.error('Database connection failed:', err);
+    throw err;
   }
 }
+
+export async function executeQuery<T>(query: string, params: { [key: string]: any } = {}): Promise<T[]> {
+    try {
+      const pool = await getConnection();
+      const request = pool.request();
+      
+      // Add parameters to the request
+      Object.entries(params).forEach(([key, value]) => {
+        request.input(key, value);
+      });
+      
+      const result = await request.query(query);
+      return result.recordset;
+    } catch (err) {
+      console.error('Query execution failed:', err);
+      throw err;
+    }
+  }

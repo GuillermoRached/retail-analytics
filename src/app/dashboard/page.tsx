@@ -1,4 +1,3 @@
-// src/app/dashboard/page.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -64,6 +63,7 @@ export default function Dashboard() {
                     const processed = processSeasonalData(seasonalData.seasonalData);
                     setProcessedSeasonalData(processed);
                 }
+                setLoading(false);
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'Failed to load analytics');
             } finally {

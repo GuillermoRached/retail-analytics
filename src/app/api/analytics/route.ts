@@ -51,7 +51,6 @@ export async function GET() {
 
     return NextResponse.json({
       demographics,
-      // We'll add more analytics endpoints as we expand functionality
     });
   } catch (error) {
     console.error('Analytics query failed:', error);

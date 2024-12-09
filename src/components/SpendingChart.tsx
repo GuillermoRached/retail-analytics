@@ -1,4 +1,3 @@
-// src/components/SpendingChart.tsx
 'use client';
 
 import { useEffect, useRef } from 'react';
@@ -12,21 +11,16 @@ interface SpendingChartProps {
 }
 
 export default function SpendingChart({ data }: SpendingChartProps) {
-  // We use a ref to store references to both the canvas and chart instance
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const chartRef = useRef<Chart | null>(null);
 
   useEffect(() => {
-    // If we don't have a canvas element, we can't create a chart
     if (!canvasRef.current) return;
 
-    // If we already have a chart, destroy it before creating a new one
-    // This prevents memory leaks and ensures clean re-renders
     if (chartRef.current) {
       chartRef.current.destroy();
     }
 
-    // Get the 2D context from our canvas element
     const ctx = canvasRef.current.getContext('2d');
     if (!ctx) return;
 

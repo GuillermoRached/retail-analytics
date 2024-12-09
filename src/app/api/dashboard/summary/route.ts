@@ -1,4 +1,3 @@
-// src/app/api/dashboard/summary/route.ts
 import { NextResponse } from 'next/server';
 import { executeQuery } from '@/lib/db';
 import { DashboardSummaryResult, DashboardSummary } from '@/types/dashboard';

@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 
-// Define our data structure to ensure type safety throughout the component
 interface HouseholdTransaction {
     Hshd_num: number;
     Loyalty_flag: string;
@@ -33,19 +32,16 @@ interface HouseholdTransaction {
 
 
 export default function HouseholdDashboard() {
-    // State management for our component
     const id = useParams().id
     const router = useRouter()
     const [data, setData] = useState<HouseholdTransaction[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
 
-    // Fetch data when the component mounts or when the household ID changes
     useEffect(() => {
         async function fetchData() {
           try {

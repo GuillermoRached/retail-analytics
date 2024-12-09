@@ -1,4 +1,3 @@
-// src/components/SeasonalTrendsChart.tsx
 'use client';
 
 import { useEffect, useRef } from 'react';
